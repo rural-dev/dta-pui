@@ -24,82 +24,82 @@ import Starting from '../src/screen/Starting';
 const Stack = createNativeStackNavigator();
 
 const AppStack = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <Stack.Screen name="HomeStack" component={HomeStack} />
-      <Stack.Screen name="DetailPelajaran" component={DetailPelajaran} />
-      <Stack.Screen name="Prestasi" component={Prestasi} />
-      <Stack.Screen name="Percakapan" component={Percakapan} />
-      <Stack.Screen name="SubMateri" component={SubMateri} />
-      <Stack.Screen name="Latihan" component={Latihan} />
-      <Stack.Screen name="Pertanyaan" component={Pertanyaan} />
-      <Stack.Screen name="HasilLatihan" component={HasilLatihan} />
-      <Stack.Screen name="Chat" component={Pesan} />
-    </Stack.Navigator>
-  );
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+            }}>
+            <Stack.Screen name="HomeStack" component={HomeStack} />
+            <Stack.Screen name="DetailPelajaran" component={DetailPelajaran} />
+            <Stack.Screen name="Prestasi" component={Prestasi} />
+            <Stack.Screen name="Percakapan" component={Percakapan} />
+            <Stack.Screen name="SubMateri" component={SubMateri} />
+            <Stack.Screen name="Latihan" component={Latihan} />
+            <Stack.Screen name="Pertanyaan" component={Pertanyaan} />
+            <Stack.Screen name="HasilLatihan" component={HasilLatihan} />
+            <Stack.Screen name="Chat" component={Pesan} />
+        </Stack.Navigator>
+    );
 };
 
 const AuthStack = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Register" component={Register} />
-    </Stack.Navigator>
-  );
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+            }}>
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Register" component={Register} />
+        </Stack.Navigator>
+    );
 };
 
 export const Router = () => {
-  const {authData, loading, onboarding, starting} = useAuth();
-  if (starting) {
-    //You can see the component implementation at the repository
-    return <Starting />;
-  } else if (onboarding) {
-    return <Onboarding />;
-  } else {
-    return (
-      <>
-        <NavigationContainer>
-          {authData?.access_token ? <AppStack /> : <AuthStack />}
-        </NavigationContainer>
-        <Modal
-          transparent={true}
-          animationType={'none'}
-          visible={loading}
-          onRequestClose={() => {
-            console.log('close modal');
-          }}>
-          <View style={styles.modalBackground}>
-            <View style={styles.activityIndicatorWrapper}>
-              <ActivityIndicator animating={loading} />
-            </View>
-          </View>
-        </Modal>
-      </>
-    );
-  }
+    const {authData, loading, onboarding, starting} = useAuth();
+    if (starting) {
+        //You can see the component implementation at the repository
+        return <Starting />;
+    } else if (onboarding) {
+        return <Onboarding />;
+    } else {
+        return (
+            <>
+                <NavigationContainer>
+                    {authData?.access_token ? <AppStack /> : <AuthStack />}
+                </NavigationContainer>
+                <Modal
+                    transparent={true}
+                    animationType={'none'}
+                    visible={loading}
+                    onRequestClose={() => {
+                        console.log('close modal');
+                    }}>
+                    <View style={styles.modalBackground}>
+                        <View style={styles.activityIndicatorWrapper}>
+                            <ActivityIndicator animating={loading} />
+                        </View>
+                    </View>
+                </Modal>
+            </>
+        );
+    }
 };
 
 const styles = StyleSheet.create({
-  modalBackground: {
-    flex: 1,
-    alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    backgroundColor: '#00000040',
-  },
-  activityIndicatorWrapper: {
-    backgroundColor: '#FFFFFF',
-    height: 100,
-    width: 100,
-    borderRadius: 10,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
+    modalBackground: {
+        flex: 1,
+        alignItems: 'center',
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        backgroundColor: '#00000040',
+    },
+    activityIndicatorWrapper: {
+        backgroundColor: '#FFFFFF',
+        height: 100,
+        width: 100,
+        borderRadius: 10,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+    },
 });
