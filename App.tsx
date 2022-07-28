@@ -8,40 +8,19 @@
  * @format
  */
 
-import React, {type PropsWithChildren} from 'react';
+import React from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
-  Text,
   useColorScheme,
-  View,
 } from 'react-native';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import {
   Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import { TailwindProvider } from "tailwindcss-react-native";
-import Register from './src/screen/Register';
-import Login from './src/screen/Login';
-import HomeStack from './src/stack/HomeStack';
-import Pesan from './src/screen/Pesan';
-import DetailPelajaran from './src/screen/DetailPelajaran';
-import Prestasi from './src/screen/Prestasi';
-import Percakapan from './src/screen/Percakapan';
-import SubMateri from './src/screen/SubMateri';
-import Latihan from './src/screen/Latihan';
-import Pertanyaan from './src/screen/Pertanyaan';
-import HasilLatihan from './src/screen/HasilLatihan';
+import {TailwindProvider} from 'tailwindcss-react-native';
 
-const Stack = createNativeStackNavigator();
+import {AuthProvider} from './contexts/Auth';
+import { Router } from './routes/Router';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -52,24 +31,9 @@ const App = () => {
 
   return (
     <TailwindProvider>
-      <NavigationContainer>
-      <Stack.Navigator screenOptions={{
-          headerShown: false
-        }}>
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Chat" component={Pesan} />
-        <Stack.Screen name="HomeStack" component={HomeStack} />
-        <Stack.Screen name="DetailPelajaran" component={DetailPelajaran} />
-        <Stack.Screen name="Prestasi" component={Prestasi} />
-        <Stack.Screen name="Percakapan" component={Percakapan} />
-        <Stack.Screen name="SubMateri" component={SubMateri} />
-        <Stack.Screen name="Latihan" component={Latihan} />
-        <Stack.Screen name="Pertanyaan" component={Pertanyaan} />
-        <Stack.Screen name="HasilLatihan" component={HasilLatihan} />
-
-      </Stack.Navigator>
-      </NavigationContainer>
+      <AuthProvider>
+        <Router />
+      </AuthProvider>
     </TailwindProvider>
   );
 };

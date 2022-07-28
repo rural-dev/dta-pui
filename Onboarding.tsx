@@ -10,6 +10,7 @@ import {
 import AppIntroSlider from 'react-native-app-intro-slider';
 import App from './App';
 import {TailwindProvider} from 'tailwindcss-react-native';
+import {useAuth} from './contexts/Auth';
 
 const data = [
   {
@@ -46,13 +47,6 @@ const data = [
     last: true,
   },
 ];
-type MyProps = {
-  // using `interface` is also ok
-  message: string;
-};
-type MyState = {
-  showRealApp: boolean; // like this
-};
 
 type Item = typeof data[0];
 
@@ -107,19 +101,18 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Onboarding extends React.Component<MyProps, MyState> {
-  state: MyState = {
-    showRealApp: false,
-  };
-  _renderItem = ({item}: {item: Item}) => {
+const Onboarding = () => {
+  const auth = useAuth();
+  console.log(auth)
+  const _renderItem = ({item}: {item: Item}) => {
     return (
       <TailwindProvider>
-        <View
+        <SafeAreaView
           style={{
             flex: 1,
             backgroundColor: item.backgroundColor,
           }}>
-          <SafeAreaView style={styles.slide}>
+          <View style={styles.slide}>
             <Image
               source={item.image}
               style={{width: item.width, height: item.heigth}}
@@ -132,18 +125,18 @@ export default class Onboarding extends React.Component<MyProps, MyState> {
             )}
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.text}>{item.text}</Text>
-          </SafeAreaView>
-        </View>
+          </View>
+        </SafeAreaView>
       </TailwindProvider>
     );
   };
-  _keyExtractor = (item: Item) => item.title;
-  _onDone = () => {
+  const _keyExtractor = (item: Item) => item.title;
+  const _onDone = () => {
     // User finished the introduction. Show real app through
     // navigation or simply by controlling state
-    this.setState({showRealApp: true});
+    auth.completeOnboarding();
   };
-  _renderNextButton = () => {
+  const _renderNextButton = () => {
     return (
       <View
         style={{
@@ -161,7 +154,7 @@ export default class Onboarding extends React.Component<MyProps, MyState> {
       </View>
     );
   };
-  _renderDoneButton = () => {
+  const _renderDoneButton = () => {
     return (
       <View
         style={{
@@ -178,25 +171,23 @@ export default class Onboarding extends React.Component<MyProps, MyState> {
       </View>
     );
   };
-  render() {
-    if (this.state.showRealApp) {
-      return <App />;
-    } else {
+
       return (
         <View style={{flex: 1}}>
           <StatusBar translucent backgroundColor="transparent" />
           <AppIntroSlider
-            keyExtractor={this._keyExtractor}
-            renderItem={this._renderItem}
+            keyExtractor={_keyExtractor}
+            renderItem={_renderItem}
             bottomButton
-            renderNextButton={this._renderNextButton}
-            renderDoneButton={this._renderDoneButton}
+            renderNextButton={_renderNextButton}
+            renderDoneButton={_renderDoneButton}
             data={data}
             dotStyle={{backgroundColor: 'rgba(255, 255, 255, .35)'}}
-            onDone={this._onDone}
+            onDone={() => auth.completeOnboarding()}
           />
         </View>
       );
-    }
-  }
+  
 }
+
+export default Onboarding

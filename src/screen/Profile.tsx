@@ -3,6 +3,7 @@ import React from 'react'
 import Logo from '../component/Logo'
 import { SvgCourse, SvgComponent, SvgPlay, SvgPencil, SvgClock } from '../svg/SVG';
 import { Rating, AirbnbRating } from 'react-native-ratings';
+import {useAuth} from '../../contexts/Auth';
 
 const DATA = [
   {
@@ -94,7 +95,8 @@ type Item = typeof DATA[0]
 type Item2 = typeof DATA2[0]
 
 const Profile = ({navigation}: {navigation: any}) => {
-  
+  const auth = useAuth();
+
   return (
     <SafeAreaView className='flex-1'>
         <ScrollView className='bg-white' contentContainerStyle={{ flexGrow: 1 }}>
@@ -107,10 +109,15 @@ const Profile = ({navigation}: {navigation: any}) => {
           <SvgPencil/>
         </View>
         </TouchableOpacity>
-        <Text className='font-poppins-medium text-xl text-hitam ml-36 mt-6'>Muhammad Dzikri</Text>
-        <Text className='font-poppins-regular text-sm text-hitam ml-36'>Siswa Kelas 1</Text>
+        <Text className='font-poppins-medium text-xl text-hitam ml-36 mt-6'>{auth.authData?.user.first_name} {auth.authData?.user.last_name}</Text>
+        <Text className='font-poppins-regular text-sm text-hitam ml-36'>{auth.authData?.user.username}</Text>
         <Text className='font-poppins-semi-bold text-lg p-5 mt-4 text-hitam'>Pesan & Kesan</Text>
-        <Text className='font-poppins-regular text-sm px-5 pb-8 text-hitam'>Saya senang sekali belajar di MD Karangsari karena Guru gurunya baik dan juga banyak teman.</Text>
+        <Text className='font-poppins-regular text-sm px-5 pb-8 text-hitam'>{auth.authData?.user.profile.bio}</Text>
+        <TouchableOpacity onPress={() => auth.signOut()}>
+                <View className='bg-hijau h-14 mx-6 mb-6 rounded-sm items-center justify-center'>
+                    <Text className='font-poppins-semi-bold text-md text-white'>LOGOUT</Text>
+                </View>
+            </TouchableOpacity>
         <View className='px-5 flex-row items-center'>
           <View className='flex-1'>
           <Text className='font-poppins-semi-bold text-lg text-hitam mr-auto'>Prestasi</Text>

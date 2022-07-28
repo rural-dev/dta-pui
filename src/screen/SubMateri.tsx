@@ -13,6 +13,8 @@ import Logo from '../component/Logo';
 import {SvgBack, SvgArrowBot, SvgThumb1, SvgSend, SvgReply} from '../svg/SVG';
 import {Rating, AirbnbRating} from 'react-native-ratings';
 import YoutubePlayer from 'react-native-youtube-iframe';
+import { api } from '../../constant/Api';
+import { useFetch } from '../../hooks/Fetch';
 
 const DATA = [
   {
@@ -31,7 +33,7 @@ const DATA = [
 
 const DATA2 = [
   {
-    id: '0',
+    pk: '0',
     type: 'video',
     title: '',
     text: '',
@@ -77,14 +79,14 @@ const DATA2 = [
   },
 ];
 
-const HeaderItem = () => (
+const HeaderItem = ({title} : {title: string}) => (
   <View className="absolute flex-row items-center border-b-1 border-abumuda top-0 pt-2 px-5 bg-white">
     <TouchableOpacity>
       <SvgBack />
     </TouchableOpacity>
     <View className="flex-1  h-16 border-abumuda justify-center ml-4">
       <Text className="font-poppins-semi-bold text-xl text-hitam">
-        Sub Materi #1
+        {title}
       </Text>
     </View>
   </View>
@@ -115,13 +117,13 @@ const FooterItem = ({navigation}: {navigation: any}) => (
 const CardItem2 = ({item}: {item: Item2}) => {
   if (item.type == 'h1') {
     return (
-      <Text className="font-poppins-medium text-lg text-hitam mt-3">
+      <Text className="font-poppins-medium text-lg text-hitam mt-3" key={item.pk}>
         {item.title}
       </Text>
     );
   } else if (item.type == 'p') {
     return (
-      <Text className="font-poppins-regular text-sm text-abutua mt-3">
+      <Text className="font-poppins-regular text-sm text-abutua mt-3" key={item.pk}>
         {item.text}
       </Text>
     );
@@ -130,11 +132,12 @@ const CardItem2 = ({item}: {item: Item2}) => {
       <Image
         source={{uri: item.image}}
         style={{height: 100, width: 300, marginTop: 12}}
+        key={item.pk}
       />
     );
   } else if (item.type == 'video') {
     return (
-      <View>
+      <View key={item.pk}>
         <YoutubePlayer height={200} play={false} videoId={item.video} />
       </View>
     );
@@ -146,18 +149,21 @@ const CardItem2 = ({item}: {item: Item2}) => {
 type Item = typeof DATA[0];
 type Item2 = typeof DATA2[0];
 
-const SubMateri = ({navigation}: {navigation: any}) => {
+const SubMateri = ({route, navigation}: {route: any, navigation: any}) => {
+  const { id } = route.params;
+  const url = `${api.Submateri}${id}/`;
+  const { loading, data } = useFetch(url);
   return (
     <SafeAreaView className="flex-1 bg-white">
       <FlatList
-        data={DATA2}
+        data={data.isimateri}
         renderItem={({item, index}) => <CardItem2 item={item} key={index} />}
         keyExtractor={item => item.id}
         showsHorizontalScrollIndicator={false}
         className="flex-grow-0"
         contentContainerStyle={{paddingHorizontal: 20, paddingVertical: 80}}
       />
-      <HeaderItem />
+      <HeaderItem title={data.name} />
       <FooterItem navigation={navigation} />
     </SafeAreaView>
   );

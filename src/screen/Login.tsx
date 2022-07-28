@@ -1,8 +1,13 @@
 import { View, Text, SafeAreaView, ScrollView, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import Logo from '../component/Logo'
+import {useAuth} from '../../contexts/Auth';
 
 export default function Login({ navigation }: {navigation: any}) {
+    const auth = useAuth();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
   return (
     <SafeAreaView className='flex-1'>
         <ScrollView className='px-7 py-10' contentContainerStyle={{ flexGrow: 1 }}>
@@ -11,9 +16,9 @@ export default function Login({ navigation }: {navigation: any}) {
             </View>
             <Text className='font-poppins-semi-bold text-lg pt-7 text-hitam'>Masuk</Text>
             <Text className='font-poppins-regular text-sm text-abutua pt-3'>Masukan detail login dibawah ini untuk mulai belajar di Aplikasi!</Text>
-            <TextInput placeholder='Alamat Email' className='border-abusedang border-2 rounded h-14 font-poppins-regular text-sm px-5 mt-12' placeholderTextColor='#D1D1D1'></TextInput>
-            <TextInput placeholder='Password' secureTextEntry={true} className='border-abusedang border-2 rounded h-14 font-poppins-regular text-sm px-5 mt-3' placeholderTextColor='#D1D1D1'></TextInput>
-            <TouchableOpacity onPress={() => navigation.navigate('HomeStack')}>
+            <TextInput onChangeText={(text) => setUsername(text)} value={username} placeholder='Alamat Email' className='border-abusedang border-2 rounded h-14 font-poppins-regular text-sm px-5 mt-12' placeholderTextColor='#D1D1D1'></TextInput>
+            <TextInput onChangeText={(text) => setPassword(text)} value={password} placeholder='Password' secureTextEntry={true} className='border-abusedang border-2 rounded h-14 font-poppins-regular text-sm px-5 mt-3' placeholderTextColor='#D1D1D1'></TextInput>
+            <TouchableOpacity onPress={() => auth.signIn({username: username, password: password})}>
                 <View className='bg-hijau h-14 mt-6 rounded-sm items-center justify-center'>
                     <Text className='font-poppins-semi-bold text-md text-white'>MASUK</Text>
                 </View>
