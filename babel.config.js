@@ -1,6 +1,3 @@
-const {NODE_ENV} = process.env;
-const inDevelopment = NODE_ENV === 'development';
-
 module.exports = {
     presets: ['module:metro-react-native-babel-preset'],
     plugins: [
@@ -9,19 +6,21 @@ module.exports = {
             {blockModuleTransform: ['react-select']},
         ],
     ],
-    module: {
-        rules: [
-            {
-                test: /\.(js|jsx)$/,
-                loader: 'babel-loader',
-                exclude: !inDevelopment
-                    ? /node_modules\/(?!(react-native-ratings))/
-                    : /(node_modules)/,
-                options: {
-                    cacheDirectory: inDevelopment,
-                    cacheCompression: false,
-                },
-            },
+};
+
+module.exports = api => {
+    api.cache(true);
+
+    return {
+        presets: ['@babel/preset-env', '@babel/preset-react'],
+        plugins: [
+            '@babel/plugin-transform-runtime',
+            ['@babel/plugin-proposal-class-properties', {loose: true}],
         ],
-    },
+        env: {
+            testing: {
+                presets: [['@babel/preset-env', {targets: {node: 'current'}}]],
+            },
+        },
+    };
 };
