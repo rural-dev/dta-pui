@@ -12,6 +12,8 @@ import React from 'react';
 import Logo from '../component/Logo';
 import {SvgCourse, SvgComponent, SvgPlay} from '../svg/SVG';
 import {Rating, AirbnbRating} from 'react-native-ratings';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../stack/HomeStack';
 
 const DATA = [
     {
@@ -48,6 +50,10 @@ const DATA2 = [
         count: '15',
     },
 ];
+
+type Item = typeof DATA[0];
+type Item2 = typeof DATA2[0];
+type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const ButtonItem = ({item}: {item: Item}) => (
     <TouchableOpacity>
@@ -139,10 +145,7 @@ const CardItem2 = ({item, navigation}: {item: Item2; navigation: any}) => (
     </View>
 );
 
-type Item = typeof DATA[0];
-type Item2 = typeof DATA2[0];
-
-const Home = ({navigation}: {navigation: any}) => {
+const Home = ({navigation}: Props) => {
     return (
         <SafeAreaView className="flex-1 bg-white">
             <ScrollView

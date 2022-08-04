@@ -113,7 +113,8 @@ const CardItem2 = ({item}: {item: Item2}) =>
 type Item = typeof DATA[0];
 type Item2 = typeof DATA2[0];
 
-const HasilLatihan = ({navigation}: {navigation: any}) => {
+const HasilLatihan = ({route, navigation}: {route: any; navigation: any}) => {
+    const {data, benar} = route.params;
     return (
         <SafeAreaView className="flex-1 bg-white">
             <View className="flex-1 py-20 px-5">
@@ -125,7 +126,7 @@ const HasilLatihan = ({navigation}: {navigation: any}) => {
                         <Text className="font-poppins-regular text-base text-white">
                             {/* Latihan 1{' '} */}
                             <Text className="font-poppins-medium text-base">
-                                Belajar Tajwid (Lengkap)
+                                {data.name}
                             </Text>
                         </Text>
                     </View>
@@ -136,12 +137,16 @@ const HasilLatihan = ({navigation}: {navigation: any}) => {
                             style={{height: 56, width: 56, margin: 32}}
                         />
                         <Text className="font-poppins-medium text-base text-hijau m-8">
-                            Yey...! Benar 10 dari 25 Soal
+                            Yey...! Benar {benar} dari {data?.soal?.length} Soal
                         </Text>
                     </View>
                 </View>
                 <View className="flex-row py-20 items-center">
-                    <TouchableOpacity style={{flex: 1}}>
+                    <TouchableOpacity
+                        style={{flex: 1}}
+                        onPress={() =>
+                            navigation.navigate('Latihan', {data: data})
+                        }>
                         <View className="flex-1 bg-oranye py-4 px-5 rounded-sm items-center">
                             <Text className="font-poppins-semi-bold text-base text-white">
                                 COBA LAGI
@@ -150,7 +155,7 @@ const HasilLatihan = ({navigation}: {navigation: any}) => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={{flex: 1, marginLeft: 20}}
-                        onPress={() => navigation.navigate('DetailPelajaran')}>
+                        onPress={() => navigation.pop()}>
                         <View className="flex-1 bg-hijau py-4 px-5 rounded-sm items-center">
                             <Text className="font-poppins-semi-bold text-base text-white">
                                 SELESAI

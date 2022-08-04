@@ -38,42 +38,7 @@ const DATA2 = [
         status: '1',
         name: 'Hukum mempelajari ilmu tajwid?',
         menit: '5',
-        type: '1',
-    },
-    {
-        pk: '2',
-        status: '0',
-        name: 'Sukun dan Tanwin',
-        menit: '26',
-        type: '1',
-    },
-    {
-        pk: '3',
-        status: '0',
-        name: 'Latihan',
-        menit: '26',
-        type: '2',
-    },
-    {
-        pk: '4',
-        status: '3',
-        name: 'Idgham Bigunnah',
-        menit: '26',
-        type: '1',
-    },
-    {
-        pk: '5',
-        status: '3',
-        name: 'Idgham Bilagunnah',
-        menit: '26',
-        type: '1',
-    },
-    {
-        pk: '6',
-        status: '3',
-        name: 'Ikhfa',
-        menit: '26',
-        type: '1',
+        tipe: '1',
     },
 ];
 
@@ -86,7 +51,7 @@ const ButtonItem = ({item}: {item: Item}) => (
 );
 
 const CardItem2 = ({item, navigation}: {item: Item2; navigation: any}) =>
-    item.type != '1' ? (
+    item.tipe == 'MT' ? (
         <View
             className="flex-row h-20 rounded mb-3 mx-1 items-center"
             key={item.pk}>
@@ -136,7 +101,9 @@ const CardItem2 = ({item, navigation}: {item: Item2; navigation: any}) =>
             </View>
             <View className="w-14 h-14 justify-center items-center">
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('Latihan')}>
+                    onPress={() =>
+                        navigation.navigate('Latihan', {data: item})
+                    }>
                     <View className="w-12 h-12 rounded-full items-center justify-center bg-hijautua">
                         <Image
                             source={require('../../assets/play.png')}
@@ -271,7 +238,16 @@ const DetailPelajaran = ({
                     />
                     <View className="px-5">
                         {data.submateri &&
-                            data.submateri.map(function (item, i) {
+                            data.submateri.map(function (
+                                item: {
+                                    pk: string;
+                                    status: string;
+                                    name: string;
+                                    menit: string;
+                                    tipe: string;
+                                },
+                                i: React.Key | null | undefined,
+                            ) {
                                 return (
                                     <CardItem2
                                         item={item}

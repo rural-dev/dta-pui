@@ -105,7 +105,7 @@ const FooterItem = ({navigation}: {navigation: any}) => (
         </TouchableOpacity>
         <TouchableOpacity
             style={{flex: 1, marginLeft: 20}}
-            onPress={() => navigation.navigate('Percakapan')}>
+            onPress={() => navigation.pop()}>
             <View className="h-14 bg-hijau rounded-sm items-center justify-center">
                 <Text className="font-poppins-semi-bold text-base text-white">
                     SELESAI
@@ -117,17 +117,13 @@ const FooterItem = ({navigation}: {navigation: any}) => (
 const CardItem2 = ({item}: {item: Item2}) => {
     if (item.type == 'h1') {
         return (
-            <Text
-                className="font-poppins-medium text-lg text-hitam mt-3"
-                key={item.pk}>
+            <Text className="font-poppins-medium text-lg text-hitam mt-3">
                 {item.title}
             </Text>
         );
     } else if (item.type == 'p') {
         return (
-            <Text
-                className="font-poppins-regular text-sm text-abutua mt-3"
-                key={item.pk}>
+            <Text className="font-poppins-regular text-sm text-abutua mt-3">
                 {item.text}
             </Text>
         );
@@ -136,12 +132,11 @@ const CardItem2 = ({item}: {item: Item2}) => {
             <Image
                 source={{uri: item.image}}
                 style={{height: 100, width: 300, marginTop: 12}}
-                key={item.pk}
             />
         );
     } else if (item.type == 'video') {
         return (
-            <View key={item.pk}>
+            <View>
                 <YoutubePlayer height={200} play={false} videoId={item.video} />
             </View>
         );

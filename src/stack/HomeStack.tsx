@@ -7,7 +7,14 @@ import PesanList from '../screen/PesanList';
 import Profile from '../screen/Profile';
 import {SvgChat, SvgCourse, SvgHome, SvgProfile} from '../svg/SVG';
 
-const Tab = createBottomTabNavigator();
+export type RootStackParamList = {
+    Home: undefined;
+    Pelajaran: undefined;
+    PesanList: undefined;
+    Profile: undefined;
+};
+
+const Tab = createBottomTabNavigator<RootStackParamList>();
 
 const HomeStack = () => {
     return (
@@ -50,7 +57,7 @@ const HomeStack = () => {
                 }}
             />
             <Tab.Screen
-                name="Pesan"
+                name="PesanList"
                 component={PesanList}
                 options={{
                     tabBarIcon: ({
