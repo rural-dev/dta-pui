@@ -11,7 +11,7 @@ import {
 import React from 'react';
 import Logo from '../component/Logo';
 import {SvgCourse, SvgComponent, SvgPlay} from '../svg/SVG';
-import {Rating, AirbnbRating} from 'react-native-ratings';
+import {AirbnbRating} from 'react-native-ratings';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../stack/HomeStack';
 
